@@ -50,11 +50,15 @@ module.exports = class BirthdayBot {
                     message = name + "'s birthday is on " + birthdays[name] + "! :party:";
                 }
             }
-    
-            this.bot.postMessageToChannel(
-                'hackhouse19birthday',
-                message
-            );
+
+            this.sendSlackNotification(message);
         }
+    }
+
+    sendSlackNotification(message) {
+        this.bot.postMessageToChannel(
+            'hackhouse19birthday',
+            message
+        );
     }
 }
