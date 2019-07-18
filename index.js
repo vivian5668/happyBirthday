@@ -28,8 +28,14 @@ let trelloResponse = [
     }
 ]
 
+async function startBot () {
+    
+
+}
+
 for (var birthday in trelloResponse) {
     if (birthday["birthday"] === today) {
-        
+        let message = `${birthday["name"]} 's birthday is on ${birthday["birthday"]}`;
+        bot.sendSlackNotification(message);
     }
 }
