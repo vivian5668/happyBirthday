@@ -86,3 +86,11 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# ignore AuthInfo.txt file
+AuthInfo.txt
+
+# ignore .DS_Store file
+.DS_Store 
+
+*.json
