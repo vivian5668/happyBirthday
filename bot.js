@@ -29,7 +29,7 @@ module.exports = class BirthdayBot {
             'whats up guys its ya boy birthday bot'
         );
 
-        callback();
+        setTimeout(callback, 2000);;
     }
 
     _onMessage(data) {
@@ -41,24 +41,34 @@ module.exports = class BirthdayBot {
     }
 
     _handleMessage(text) {
-        var lower = text.toLowerCase();
-        var message = "I don't know who that is!";
-    
-        if (lower.includes('when') && lower.includes('birthday')) {
+        let lower = text.toLowerCase();
+        let message = "I don't know who that is!";
+        let params;
+
+        if (lower.includes('help')) {
+            message = `I am your lovely birthday bot! You can ask "When is [name]'s birthday?`;
+            params = {
+                attachments: [{
+                    color: 'danger',
+                    text: message
+                }]
+            }
+            this.sendSlackNotification("", params);
+        } else if (lower.includes(' when') && lower.includes(' birthday')) {
             for (var name in birthdays) {
                 if (lower.includes(name.toLowerCase())) {
                     message = name + "'s birthday is on " + birthdays[name] + "! :party:";
                 }
             }
-
-            this.sendSlackNotification(message);
+            this.sendSlackNotification(message, params);
         }
     }
 
-    sendSlackNotification(message) {
+    sendSlackNotification(message, params) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
-            message
+            message,
+            params,
         );
     }
 }

@@ -2,10 +2,7 @@ var Bot = require('./bot');
 require('dotenv').config();
 
 console.log("Oh hello, you found the entry point!")
-var bot = new Bot(() => {
-    console.log("this only happens after init")
-    checkForTodayBirthday();
-});
+var bot = new Bot(() => {checkForTodayBirthday()});
 
 const today = "1/22"
 let trelloResponse = [
@@ -33,9 +30,6 @@ let trelloResponse = [
 
 function checkForTodayBirthday() {
     trelloResponse.forEach((birthday) => {
-        console.log(birthday);
-        console.log(`birthday is ${birthday.birthday}`);
-        console.log(`today is ${today}`);
         if (birthday["birthday"] === today) {
             let message = `${birthday["name"]}'s birthday is on ${birthday["birthday"]}! :party:`;
             bot.sendSlackNotification(message);
