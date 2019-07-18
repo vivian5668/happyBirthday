@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/vivian5668/happyBirthday/issues"
   },
-  "homepage": "https://github.com/vivian5668/happyBirthday#readme"
+  "homepage": "https://github.com/vivian5668/happyBirthday#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "slackbots": "^1.2.0"
+  }
 }
