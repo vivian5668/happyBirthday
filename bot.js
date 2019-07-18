@@ -1,5 +1,17 @@
 const SlackBot = require('slackbots');
-
+const emojiChoices = [
+    ":birthday:",
+    ":happy:",
+    ":cake:",
+    ":confetti_ball:",
+    ":partyblob:",
+    ":roohappy:",
+    ":blobderpyhappy:",
+    ":parrotbirthdayparty:",
+    ":sohappy:",
+    ":blobhype:",
+    ":a-cool:",
+]
 const birthdays = {
     'Jacob': '5/1',
     'Chelsea': '6/42/3019',
@@ -26,43 +38,47 @@ module.exports = class BirthdayBot {
     announceBirthdays(today, oneWeek) {
         if (today.length > 0) {
             let attachments = [];
-
+            
             // Create the messages (attachments) for today's birthdays
             today.forEach((name) => {
+                let emoji = emojiChoices[Math.floor(Math.random() * emojiChoices.length)];
+                let emojiText = emoji + emoji;
                 attachments.push({
                     color: 'good',
-                    text: `${name}'s birthday is today! :party:`
+                    text: `${name} ${emojiText}`
                 });
             });
     
             // Send announcement for today's birthdays
-            this._sendSlackNotification("", {
+            this._sendSlackNotification("Cake is better to be shared! Here are your beloved birthday cake 'excuses' today!", {
                 attachments: attachments
             });
         }
 
-        if (oneWeek.length > 0) {
-            // Create the message for birthdays which are in 1 week
-            let message;
-
-            if (oneWeek.length == 1) {
-                message = `Save money to buy some cake for ${oneWeek[0]}'s birthday next week!`;
-            } else {
-                message = `Save money to buy some cake for these birthdays next week: ${oneWeek.join(", ")}`;
+        setTimeout(()=> {
+            if (oneWeek.length > 0) {
+                // Create the message for birthdays which are in 1 week
+                let message;
+    
+                if (oneWeek.length == 1) {
+                    message = `Save money to buy some cake for ${oneWeek[0]}'s birthday next week!`;
+                } else {
+                    message = `Save money to buy some cake for these birthdays next week: ${oneWeek.join(", ")}`;
+                }
+    
+                // Send the message for birthdays which are in 1 week
+                this._sendSlackNotification(message, {});
             }
-
-            // Send the message for birthdays which are in 1 week
-            this._sendSlackNotification(message, {});
-        }
+        }, 5000);
     }
 
     _onStart(callback) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
-            'whats up guys its ya boy birthday bot'
+            ':robot_face: I am your happyBirthday Bot! :robot_face:'
         );
 
-        setTimeout(callback, 2000);;
+        setTimeout(callback, 5000);;
     }
 
     _onMessage(data) {
