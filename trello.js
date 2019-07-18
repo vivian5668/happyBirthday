@@ -8,8 +8,11 @@
 */
 
 const axios = require('axios');
-const API_KEY = '';
-const API_TOKEN = '';
+let json = require('./AuthInfo.json');
+
+const API_KEY = json.APIKey;
+const API_TOKEN = json.APIToken;
+
 const authentication = {
   key: API_KEY,
   token: API_TOKEN

@@ -92,3 +92,5 @@ AuthInfo.txt
 
 # ignore .DS_Store file
 .DS_Store 
+
+*.json
