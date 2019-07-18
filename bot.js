@@ -55,23 +55,14 @@ function listArray(arr) {
     return message;
 }
 
-const birthdays = {
-    'Jacob': '5/1',
-    'Chelsea': '6/42/3019',
-    'Sam': '7/1',
-    'Brandon': '8/1',
-    'Alex': '9/1',
-    'Nora': '10/1'
-};
-
-
-
 module.exports = class BirthdayBot {
     constructor(callback) {
         this.bot = new SlackBot({
             token: process.env.SLACK_TOKEN,
             name: 'birthdaybot'
         });
+
+        this.birthdays = {};
 
         this.bot.on('start', () => this._onStart(callback));
 
@@ -116,6 +107,10 @@ module.exports = class BirthdayBot {
         }, 5000);
     }
 
+    registerBirthday(name, birthday) {
+        this.birthdays[name] = birthday;
+    }
+
     _onStart(callback) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
@@ -148,9 +143,9 @@ module.exports = class BirthdayBot {
             }
             this._sendSlackNotification("", params);
         } else if (lower.includes(' when') && lower.includes(' birthday')) {
-            for (var name in birthdays) {
+            for (var name in this.birthdays) {
                 if (lower.includes(name.toLowerCase())) {
-                    message = name + "'s birthday is on " + birthdays[name] + "! :party:";
+                    message = name + "'s birthday is on " + this.birthdays[name] + "! :party:";
                 }
             }
             this._sendSlackNotification(message, params);
