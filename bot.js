@@ -23,6 +23,39 @@ module.exports = class BirthdayBot {
         this.bot.on('message', (data) => this._onMessage(data));
     }
 
+    announceBirthdays(today, oneWeek) {
+        if (today.length > 0) {
+            let attachments = [];
+
+            // Create the messages (attachments) for today's birthdays
+            today.forEach((name) => {
+                attachments.push({
+                    color: 'good',
+                    text: `${name}'s birthday is today! :party:`
+                });
+            });
+    
+            // Send announcement for today's birthdays
+            this._sendSlackNotification("", {
+                attachments: attachments
+            });
+        }
+
+        if (oneWeek.length > 0) {
+            // Create the message for birthdays which are in 1 week
+            let message;
+
+            if (oneWeek.length == 1) {
+                message = `Save money to buy some cake for ${oneWeek[0]}'s birthday next week!`;
+            } else {
+                message = `Save money to buy some cake for these birthdays next week: ${oneWeek.join(", ")}`;
+            }
+
+            // Send the message for birthdays which are in 1 week
+            this._sendSlackNotification(message, {});
+        }
+    }
+
     _onStart(callback) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
@@ -53,18 +86,18 @@ module.exports = class BirthdayBot {
                     text: message
                 }]
             }
-            this.sendSlackNotification("", params);
+            this._sendSlackNotification("", params);
         } else if (lower.includes(' when') && lower.includes(' birthday')) {
             for (var name in birthdays) {
                 if (lower.includes(name.toLowerCase())) {
                     message = name + "'s birthday is on " + birthdays[name] + "! :party:";
                 }
             }
-            this.sendSlackNotification(message, params);
+            this._sendSlackNotification(message, params);
         }
     }
 
-    sendSlackNotification(message, params) {
+    _sendSlackNotification(message, params) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
             message,
