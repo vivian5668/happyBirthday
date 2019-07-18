@@ -63,14 +63,23 @@ axios.get('https://api.trello.com/1/Boards/lVpwvqjp?fields=name&boardPlugins=tru
   .finally(function () {
     // always executed
     Promise.all(listOfPromises).then(function() {
-      //today, week away, unbirthday
-      // const idList = ['5d2fbf84889f9e2623b4c824', '5d2fbf84889f9e2623b4c823', '5d2fbf84889f9e2623b4c825'];
       var mapping = {
         "Week Away"  : '5d2fbf84889f9e2623b4c823',
          "Today"      : '5d2fbf84889f9e2623b4c824',
          "NonBirthday": '5d2fbf84889f9e2623b4c825'
       }
-      // const idCard = '5d2fc0346157c314f9212008';
+      var namesDict = {
+        "Week Away": [],
+        "Today"    : []
+      }
+      for(key in columns){
+        for(var i = 0; i<columns[key].length; i++){
+          if(key != 'NonBirthday'){
+            namesDict[key].push(columns[key][i][1]);
+          }
+        }
+      }
+      [Object.values(namesDict['Today']), Object.values(namesDict['Week Away'])];
       for(key in columns){
         for(var i = 0; i<columns[key].length; i++){
             axios.put(`https://api.trello.com/1/cards/${columns[key][i][0]}`, {
