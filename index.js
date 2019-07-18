@@ -1,5 +1,5 @@
-var bot = require('./bot');
+var Bot = require('./bot');
 require('dotenv').config();
 
 console.log("Oh hello, you found the entry point!")
-bot.botInit();
+var bot = new Bot();
