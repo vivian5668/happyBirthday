@@ -2,7 +2,9 @@ var Bot = require('./bot');
 require('dotenv').config();
 
 console.log("Oh hello, you found the entry point!")
-var bot = new Bot();
+var bot = new Bot(() => {
+    console.log("this only happens after init")
+});
 
 const today = "1/22"
 let trelloResponse = [

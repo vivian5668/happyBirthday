@@ -10,24 +10,26 @@ const birthdays = {
 };
 
 module.exports = class BirthdayBot {
-    constructor() {
+    constructor(callback) {
         this.bot = new SlackBot({
             token: process.env.SLACK_TOKEN,
             name: 'birthdaybot'
         });
 
-        this.bot.on('start', () => this._onStart());
+        this.bot.on('start', () => this._onStart(callback));
 
         this.bot.on('error', err => console.log(err));
 
         this.bot.on('message', (data) => this._onMessage(data));
     }
 
-    _onStart() {
+    _onStart(callback) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
             'whats up guys its ya boy birthday bot'
         );
+
+        callback();
     }
 
     _onMessage(data) {
