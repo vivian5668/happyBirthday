@@ -1,36 +1,23 @@
-<<<<<<< HEAD
-console.log("Oh hello, you found the entry point!")
-=======
 var Bot = require('./bot');
 require('dotenv').config();
 
-console.log("Oh hello, you found the entry point!")
 var bot = new Bot(() => {
+    // Pass in todays birthdays, birthdays in 1 week
     bot.announceBirthdays(["Chelsea", "Sam"], ["Brandon"])
 });
 
-const today = "1/22"
-let trelloResponse = [
-    {
-        "name": "Chelsea",
-        "birthday": "1/22"
-    },
-    {
-        "name": "Nora",
-        "birthday": "9/26"
-    },
-    {
-        "name": "Sam",
-        "birthday": "1/22"
-    },
-    {
-        "name": "Hello",
-        "birthday": "2/11"
-    },
-    {
-        "name": "Bot",
-        "birthday": "1/1/1970"
-    }
-]
+// This data is used to lookup birthdays in Slack
+// e.g. should be populated with ALL birthday data from slack
+const birthdays = {
+    'Jacob': '5/1',
+    'Chelsea': '6/42/3019',
+    'Sam': '7/1',
+    'Brandon': '8/1',
+    'Alex': '9/1',
+    'Nora': '10/1'
+};
 
->>>>>>> ed16294739e922b6a9c0c6bcb842c0d703a12561
+
+for (let name in birthdays) {
+    bot.registerBirthday(name, birthdays[name]);
+}

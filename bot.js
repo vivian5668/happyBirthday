@@ -1,25 +1,59 @@
 const SlackBot = require('slackbots');
-const emojiChoices = [
-    ":birthday:",
-    ":happy:",
-    ":cake:",
-    ":confetti_ball:",
-    ":partyblob:",
-    ":roohappy:",
-    ":blobderpyhappy:",
-    ":parrotbirthdayparty:",
-    ":sohappy:",
-    ":blobhype:",
-    ":a-cool:",
-]
-const birthdays = {
-    'Jacob': '5/1',
-    'Chelsea': '6/42/3019',
-    'Sam': '7/1',
-    'Brandon': '8/1',
-    'Alex': '9/1',
-    'Nora': '10/1'
-};
+
+const choices = {
+    emoji: [
+        ":birthday:",
+        ":happy:",
+        ":cake:",
+        ":confetti_ball:",
+        ":partyblob:",
+        ":roohappy:",
+        ":blobderpyhappy:",
+        ":parrotbirthdayparty:",
+        ":sohappy:",
+        ":blobhype:",
+        ":a-cool:"
+    ],
+    todayAnnouncement: [
+        "Cake tastes better when shared! Here are your beloved b-day cake \"excuses\" today!",
+        "wow birthdays! TODO better message",
+        "TODO COOL BIRTHDAY ANNOUNCEMENT"
+    ],
+    nextWeekSingularAnnouncement: [
+        "Save money to buy some cake for ${0}'s birthday next week!",
+        "TODO ${0} has a birthday next week",
+        "${0}'s birthday is in a week or something i guess"
+    ],
+    nextWeekPluralAnnouncement: [
+        "Save money to buy some cake for these birthdays next week: ${0}",
+        "These people have birthday next week which is cool or something: ${0}",
+        "TODO: next week birthdays are ${0}"
+    ]
+}
+
+function randomChoice(choices) {
+    return choices[Math.floor(Math.random() * choices.length)];
+}
+
+function substitute(target, replacement) {
+    return target.replace("${0}", replacement);
+}
+
+function listArray(arr) {
+    let message = "";
+
+    for (let i = 0; i < arr.length; i++) {
+        message += arr[i];
+        if (i < arr.length - 1) {
+            message += ", ";
+        }
+        if (i == arr.length - 2) {
+            message += "and ";
+        }
+    }
+
+    return message;
+}
 
 module.exports = class BirthdayBot {
     constructor(callback) {
@@ -27,6 +61,8 @@ module.exports = class BirthdayBot {
             token: process.env.SLACK_TOKEN,
             name: 'birthdaybot'
         });
+
+        this.birthdays = {};
 
         this.bot.on('start', () => this._onStart(callback));
 
@@ -41,16 +77,15 @@ module.exports = class BirthdayBot {
             
             // Create the messages (attachments) for today's birthdays
             today.forEach((name) => {
-                let emoji = emojiChoices[Math.floor(Math.random() * emojiChoices.length)];
-                let emojiText = emoji + emoji;
+                let emoji = randomChoice(choices.emoji);
                 attachments.push({
                     color: 'good',
-                    text: `${name} ${emojiText}`
+                    text: `${name} ${emoji} ${emoji}`
                 });
             });
     
             // Send announcement for today's birthdays
-            this._sendSlackNotification("Cake is better to be shared! Here are your beloved birthday cake 'excuses' today!", {
+            this._sendSlackNotification(randomChoice(choices.todayAnnouncement), {
                 attachments: attachments
             });
         }
@@ -61,9 +96,9 @@ module.exports = class BirthdayBot {
                 let message;
     
                 if (oneWeek.length == 1) {
-                    message = `Save money to buy some cake for ${oneWeek[0]}'s birthday next week!`;
+                    message = substitute(randomChoice(choices.nextWeekSingularAnnouncement), oneWeek[0]);
                 } else {
-                    message = `Save money to buy some cake for these birthdays next week: ${oneWeek.join(", ")}`;
+                    message = substitute(randomChoice(choices.nextWeekPluralAnnouncement), listArray(oneWeek));
                 }
     
                 // Send the message for birthdays which are in 1 week
@@ -72,10 +107,14 @@ module.exports = class BirthdayBot {
         }, 5000);
     }
 
+    registerBirthday(name, birthday) {
+        this.birthdays[name] = birthday;
+    }
+
     _onStart(callback) {
         this.bot.postMessageToChannel(
             'hackhouse19birthday',
-            ':robot_face: I am your happyBirthday Bot! :robot_face:'
+            'Hello! :robot_face: I am your loyal Birthday Bot! :robot_face:'
         );
 
         setTimeout(callback, 5000);;
@@ -104,9 +143,9 @@ module.exports = class BirthdayBot {
             }
             this._sendSlackNotification("", params);
         } else if (lower.includes(' when') && lower.includes(' birthday')) {
-            for (var name in birthdays) {
+            for (var name in this.birthdays) {
                 if (lower.includes(name.toLowerCase())) {
-                    message = name + "'s birthday is on " + birthdays[name] + "! :party:";
+                    message = name + "'s birthday is on " + this.birthdays[name] + "! :party:";
                 }
             }
             this._sendSlackNotification(message, params);
