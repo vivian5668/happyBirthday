@@ -30,9 +30,20 @@ let trelloResponse = [
 
 function checkForTodayBirthday() {
     trelloResponse.forEach((birthday) => {
+        let messages = []
         if (birthday["birthday"] === today) {
             let message = `${birthday["name"]}'s birthday is on ${birthday["birthday"]}! :party:`;
-            bot.sendSlackNotification(message);
+            let attachment = {
+                color: 'good',
+                text: message
+            }
+            messages.push(attachment);    
         }
+        let params = {
+            attachments: messages
+        }
+        bot.sendSlackNotification("", params);
     })
 }
+
+
