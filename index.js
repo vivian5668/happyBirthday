@@ -1,6 +1,21 @@
 var Bot = require('./bot');
 require('dotenv').config();
 
+var trello = require('./trello');
+
+async function main() {
+    var cardIds = await trello.getCardsByDate();
+    var cardNames = await trello.getCardNames(cardIds);
+    await trello.moveCardsById(cardIds);
+
+    var bot = new Bot(() => {
+        bot.announceBirthdays(cardNames.today, cardNames.nextWeek);
+    });
+}
+
+main();
+
+/*
 var bot = new Bot(() => {
     // Pass in todays birthdays, birthdays in 1 week
     bot.announceBirthdays(["Chelsea", "Sam"], ["Brandon"])
@@ -20,4 +35,4 @@ const birthdays = {
 
 for (let name in birthdays) {
     bot.registerBirthday(name, birthdays[name]);
-}
+}*/
