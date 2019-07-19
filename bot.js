@@ -15,19 +15,19 @@ const choices = {
         ":a-cool:"
     ],
     todayAnnouncement: [
-        "Cake tastes better when shared! Here are your beloved b-day cake \"excuses\" today!",
-        "wow birthdays! TODO better message",
-        "TODO COOL BIRTHDAY ANNOUNCEMENT"
+        "Cake tastes better if shared! Here are your beloved b-day cake \"excuses\" today!",
+        "Today is a special day! Here's why: it's a birthday day!",
+        "I know your Social Security number! Jk, but now that I have your attention: today's birthday announcement!"
     ],
     nextWeekSingularAnnouncement: [
-        "Save money to buy some cake for ${0}'s birthday next week!",
-        "TODO ${0} has a birthday next week",
-        "${0}'s birthday is in a week or something i guess"
+        "Save some money in the next 7 days to buy cake for ${0}'s birthday!",
+        "Did you know that ${0} has a birthday next week? Well, now you do!",
+        "Alert! :warning: ${0}'s birthday will be here in a week!"
     ],
     nextWeekPluralAnnouncement: [
-        "Save money to buy some cake for these birthdays next week: ${0}",
-        "These people have birthday next week which is cool or something: ${0}",
-        "TODO: next week birthdays are ${0}"
+        "Save some money in the next 7 days to buy cake for ${0}'s birthdays!'",
+        "Did you know that ${0} have birthdays next week? Well, now you do!",
+        "Alert! :warning: ${0}'s birthdays will be here in a week!"
     ]
 }
 
@@ -74,7 +74,7 @@ module.exports = class BirthdayBot {
     announceBirthdays(today, oneWeek) {
         if (today.length > 0) {
             let attachments = [];
-            
+
             // Create the messages (attachments) for today's birthdays
             today.forEach((name) => {
                 let emoji = randomChoice(choices.emoji);
@@ -83,7 +83,7 @@ module.exports = class BirthdayBot {
                     text: `${name} ${emoji} ${emoji}`
                 });
             });
-    
+
             // Send announcement for today's birthdays
             this._sendSlackNotification(randomChoice(choices.todayAnnouncement), {
                 attachments: attachments
@@ -94,13 +94,13 @@ module.exports = class BirthdayBot {
             if (oneWeek.length > 0) {
                 // Create the message for birthdays which are in 1 week
                 let message;
-    
+
                 if (oneWeek.length == 1) {
                     message = substitute(randomChoice(choices.nextWeekSingularAnnouncement), oneWeek[0]);
                 } else {
                     message = substitute(randomChoice(choices.nextWeekPluralAnnouncement), listArray(oneWeek));
                 }
-    
+
                 // Send the message for birthdays which are in 1 week
                 this._sendSlackNotification(message, {});
             }
