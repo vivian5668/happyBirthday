@@ -16,8 +16,8 @@ const choices = {
     ],
     todayAnnouncement: [
         "Cake tastes better if shared! Here are your beloved b-day cake \"excuses\" today!",
-        "Today is a special day! Here's why: it's a birthday day!",
-        "I know your Social Security number! Jk, but now that I have your attention: today's birthday announcement!"
+        "Today is the best day of my life so far! And here's why: it's a birthday day!",
+        "I know your Social Security Number! Actually I don't, but now that I have your attention: today's birthday announcement!"
     ],
     nextWeekSingularAnnouncement: [
         "Save some money in the next 7 days to buy cake for ${0}'s birthday!",
