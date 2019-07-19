@@ -1,6 +1,6 @@
 /* 1. check time
 // 2. if date change, we need to make api call to retrieve cards
-// 3. process cards accordingly: 
+// 3. process cards accordingly:
 	- week before special date
 	- on the special date(current date)
 	- other
@@ -119,7 +119,7 @@ async function getAllBirthdays() {
 
       for (var i = 0; i < response.data.cards.length; i++) {
         let date = new Date(response.data.cards[i].customFieldItems[0].value.date);
-        nameAndDate[response.data.cards[i].name] = `${date.getMonth()}/${date.getDate()}`
+        nameAndDate[response.data.cards[i].name] = `${date.getMonth() + 1}/${date.getDate()}`
       }
     });
 
@@ -129,4 +129,3 @@ async function getAllBirthdays() {
 async function getCardName(id, key) {
   return await axios.get('https://api.trello.com/1/cards/' + id + '/name');
 }
-
