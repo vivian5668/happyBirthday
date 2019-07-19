@@ -15,19 +15,19 @@ const choices = {
         ":a-cool:"
     ],
     todayAnnouncement: [
-        "Cake tastes better if shared! Here are your beloved b-day cake \"excuses\" today!",
-        "Today is the best day of my life so far! And here's why: it's a birthday day!",
-        "I know your Social Security Number! Actually I don't, but now that I have your attention: today's birthday announcement!"
+        // "Cake tastes better if shared! Here are your beloved b-day cake \"excuses\" today!",
+        "Today is the best day of my life so far! And here's why: There is a birthday day today!",
+        // "I know your Social Security Number! Actually I don't, but now that I have your attention: today's birthday announcement!"
     ],
     nextWeekSingularAnnouncement: [
-        "Save some money in the next 7 days to buy cake for ${0}'s birthday!",
+        // "Save some money in the next 7 days to buy cake for ${0}'s birthday!",
         "Did you know that ${0} has a birthday next week? Well, now you do!",
-        "Alert! :warning: ${0}'s birthday will be here in a week!"
+        // "Alert! :warning: ${0}'s birthday will be here in a week!"
     ],
     nextWeekPluralAnnouncement: [
-        "Save some money in the next 7 days to buy cake for ${0}'s birthdays!'",
+        // "Save some money in the next 7 days to buy cake for ${0}'s birthdays!'",
         "Did you know that ${0} have birthdays next week? Well, now you do!",
-        "Alert! :warning: ${0}'s birthdays will be here in a week!"
+        // "Alert! :warning: ${0}'s birthdays will be here in a week!"
     ]
 }
 
