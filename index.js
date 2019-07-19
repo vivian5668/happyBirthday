@@ -7,8 +7,15 @@ async function main() {
     var cardIds = await trello.getCardsByDate();
     var cardNames = await trello.getCardNames(cardIds);
     await trello.moveCardsById(cardIds);
+    var allBirthdays = await trello.getAllBirthdays();
+    
+    
 
     var bot = new Bot(() => {
+        for (let name in allBirthdays) {
+            bot.registerBirthday(name, allBirthdays[name]);
+        }
+
         bot.announceBirthdays(cardNames.today, cardNames.nextWeek);
     });
 }
@@ -23,15 +30,6 @@ var bot = new Bot(() => {
 
 // This data is used to lookup birthdays in Slack
 // e.g. should be populated with ALL birthday data from slack
-const birthdays = {
-    'Jacob': '5/1',
-    'Chelsea': '6/42/3019',
-    'Sam': '7/1',
-    'Brandon': '8/1',
-    'Alex': '9/1',
-    'Nora': '10/1'
-};
-
 
 for (let name in birthdays) {
     bot.registerBirthday(name, birthdays[name]);

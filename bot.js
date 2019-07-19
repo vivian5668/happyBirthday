@@ -144,8 +144,10 @@ module.exports = class BirthdayBot {
             this._sendSlackNotification("", params);
         } else if (lower.includes(' when') && lower.includes(' birthday')) {
             for (var name in this.birthdays) {
-                if (lower.includes(name.toLowerCase())) {
+                console.log(name);
+                if (lower.includes(name.toLowerCase()) || lower.includes(name.split(" ")[0].toLowerCase())) {
                     message = name + "'s birthday is on " + this.birthdays[name] + "! :party:";
+                    break;
                 }
             }
             this._sendSlackNotification(message, params);
